@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,13 @@ namespace Contact_Service
             services.AddCors(options => {
                 options.AddPolicy("DMZ", builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             });
+            
+            // Configure global HttpClient
+            HttpClient httpClient = new HttpClient();
+            services.AddSingleton<HttpClient>(httpClient);
+
+            // Configure transient services
+            services.AddScoped<IContactDataStore, ContactDataStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

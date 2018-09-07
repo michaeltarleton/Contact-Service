@@ -11,16 +11,23 @@ namespace Contact_Service.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<IEnumerable<Contact>> Get()
+        private readonly IContactDataStore _dataStore;
+
+        public ContactsController(IContactDataStore dataStore)
         {
-            return Ok(DataStore.GetContacts());
+            _dataStore = dataStore;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _dataStore.GetContacts());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Contact> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return Ok(DataStore.GetContact(id));
+            return Ok(await _dataStore.GetContact(id));
         }
     }
 }
