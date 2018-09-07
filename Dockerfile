@@ -11,8 +11,8 @@ COPY ./ ./
 RUN dotnet publish -c Release -o out
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
-EXPOSE 80
-ENV ASPNETCORE_URLS http://+:80
+EXPOSE 5000
+ENV ASPNETCORE_URLS http://+:5000
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "Contact-Service.dll"]
